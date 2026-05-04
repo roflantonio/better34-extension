@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; width: 250px; padding: 15px; margin: 0; background-color: #f9f9f9; color: #333; }
+    
+    /* ШАПКА */
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 15px; }
+    h3 { margin: 0; font-size: 16px; }
+    #open-settings { cursor: pointer; font-size: 16px; transition: 0.2s; }
+    #open-settings:hover { transform: scale(1.2); }
+
+    /* ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА */
+    .lang-container { display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+    .lang-btn { cursor: pointer; font-size: 20px; margin: 0 5px; opacity: 0.3; transition: 0.2s; user-select: none; filter: grayscale(100%); }
+    .lang-btn.active { opacity: 1; transform: scale(1.1); filter: grayscale(0%); }
+    
+    /* Блок статистики */
+    .stat-container { margin-bottom: 15px; }
+    .stat { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+    .stat-val { font-weight: bold; color: #0088cc; }
+    
+    /* Кнопки */
+    button { width: 100%; padding: 6px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; margin-bottom: 15px; }
+    #resetStats { background-color: #bdc3c7; color: #333; }
+    #resetStats:hover { background-color: #95a5a6; }
+    
+    /* Настройки */
+    input[type="text"] { width: 100%; padding: 6px; margin-bottom: 12px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; font-size: 10px; }
+    #saveSettingsBtn { background-color: #27ae60; color: white; margin-bottom: 5px; }
+    #closeSettingsBtn { background-color: #34495e; color: white; }
+    
+    /* Блок логов */
+    .log-section { border-top: 1px solid #ddd; padding-top: 10px; margin-bottom: 15px; }
+    .log-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; color: #e74c3c; margin-bottom: 5px; }
+    #clearLogs { background: none; border: none; color: #7f8c8d; font-size: 10px; cursor: pointer; text-decoration: underline; padding: 0; width: auto; margin: 0; }
+    #clearLogs:hover { color: #333; }
+    #logViewer { width: 100%; height: 60px; font-size: 10px; font-family: monospace; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; padding: 5px; overflow-y: auto; box-sizing: border-box; resize: vertical; color: #c0392b; }
+    
+    /* Тумблер */
+    .switch-container { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #ddd; padding-top: 15px; font-weight: bold; font-size: 14px; }
+    .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 22px; }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: #27ae60; }
+    input:checked + .slider:before { transform: translateX(18px); }
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+    <h3>better34</h3>
+    <span id="open-settings" title="Settings">⚙️</span>
+  </div>
+
+  <!-- ГЛАВНОЕ ОКНО -->
+  <div id="main-view">
+    <div class="lang-container">
+      <span>lang:</span>
+      <span class="lang-btn" id="lang-en" data-lang="en">🇺🇸</span>
+      <span class="lang-btn" id="lang-ru" data-lang="ru">🇷🇺</span>
+    </div>
+
+    <div class="stat-container">
+      <div class="stat"><span id="lbl-sent">Отправлено в ТГ:</span> <span class="stat-val" id="sentCount">0</span></div>
+      <div class="stat"><span id="lbl-down">Скачано на ПК:</span> <span class="stat-val" id="downloadCount">0</span></div>
+    </div>
+    
+    <button id="resetStats">Сбросить статистику</button>
+    
+    <div class="log-section">
+      <div class="log-header">
+        <span id="lbl-log">Лог ошибок</span>
+        <button id="clearLogs">Очистить</button>
+      </div>
+      <textarea id="logViewer" readonly></textarea>
+    </div>
+    
+    <div class="switch-container">
+      <span id="lbl-enabled">Включено:</span>
+      <label class="switch">
+        <input type="checkbox" id="extToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ОКНО НАСТРОЕК -->
+  <div id="settings-view" style="display: none;">
+    <h4 id="lbl-settings" style="margin-top: 0; margin-bottom: 15px; text-align: center; color: #2c3e50;">Настройки Telegram</h4>
+    
+    <label id="lbl-token" style="font-size: 12px; font-weight: bold;">Bot API Token:</label>
+    <input type="text" id="botTokenInput" placeholder="1234567890:AAH_xxxxxxxxxxxxx">
+    
+    <label id="lbl-chat" style="font-size: 12px; font-weight: bold;">Chat ID (@channel):</label>
+    <input type="text" id="chatIdInput" placeholder="@my_channel или -1001234567">
+    
+    <button id="saveSettingsBtn">Сохранить</button>
+    <button id="closeSettingsBtn">⬅️ Назад</button>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
