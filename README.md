@@ -18,6 +18,7 @@ Key Features:
 - Auto-Navigation: Automatically returns you to the search page immediately after successfully saving or sending a post.
 - UI Tweaks: A handy "Fit to screen" button for viewing long, unreadable comic strips.
 - Settings & Stats Popup: A multilingual (EN/RU) popup menu to configure your Telegram Bot API & Chat ID, track download statistics, and view built-in error logs.
+- iOS version is also available, file nameL mobile_edition.js (compatible with the Userscripts extension).
 
 ---
 
@@ -36,6 +37,7 @@ better34 — это мощное расширение, которое превр
 - Авто-навигация: Скрипт сам возвращает вас на страницу поиска сразу после успешного сохранения или отправки поста.
 - Улучшение интерфейса: Кнопка "Вписать в экран", чтобы удобно читать длинные вертикальные комиксы.
 - Всплывающее меню настроек: Меню с поддержкой двух языков (RU/EN), где можно безопасно указать токены Telegram API, посмотреть статистику скачиваний и логи ошибок.
+- Также доступна версия для iOS mobile_edition.js(используйте через расширение Userscripts).
 
 ---
 
